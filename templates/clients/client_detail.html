@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ client }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">{{ client.get_status_display }}</p><h1>{{ client }}</h1><p>{{ client.legal_name }}</p></div></div>
+<section class="two-columns">
+  <div class="card">
+    <h2>Dados</h2>
+    <dl><dt>Documento</dt><dd>{{ client.tax_id }}</dd><dt>Atuação</dt><dd>{{ client.get_service_scope_display }}</dd><dt>Início</dt><dd>{{ client.start_of_service }}</dd></dl>
+  </div>
+  <div class="card">
+    <h2>Checklist de implantação</h2>
+    <ul class="tasks">
+      {% for task in client.onboarding_tasks.all %}
+        <li>
+          <span>{{ task.title }}</span>
+          {% if task.status == "DONE" %}
+            <strong>{{ task.get_status_display }}</strong>
+          {% elif user.role != "VIEWER" %}
+            <form method="post" action="{% url 'onboarding-task-complete' client.public_id task.public_id %}">
+              {% csrf_token %}<button class="small-button">Concluir</button>
+            </form>
+          {% else %}<strong>{{ task.get_status_display }}</strong>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}
+

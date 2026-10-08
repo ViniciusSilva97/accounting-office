@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Novo cliente{% endblock %}
+{% block content %}
+<section class="card form-card">
+  <p class="eyebrow">Implantação</p><h1>Novo cliente</h1>
+  <p>O cadastro cria automaticamente o responsável e o checklist inicial.</p>
+  <form method="post">{% csrf_token %}{{ form.as_p }}<button class="primary">Cadastrar cliente</button></form>
+</section>
+{% endblock %}
+

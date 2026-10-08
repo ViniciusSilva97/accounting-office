@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">Operação</p><h1>Empresas atendidas</h1></div>
+  {% if user.role == "ADMIN" or user.role == "ACCOUNTANT" %}<a class="button primary" href="{% url 'client-create' %}">Novo cliente</a>{% endif %}
+</div>
+<section class="grid">
+  {% for client in clients %}
+    <a class="card client-card" href="{% url 'client-detail' client.public_id %}">
+      <span class="status">{{ client.get_status_display }}</span>
+      <h2>{{ client }}</h2>
+      <p>{{ client.get_service_scope_display }}</p>
+    </a>
+  {% empty %}<div class="card"><p>Nenhum cliente disponível.</p></div>{% endfor %}
+</section>
+{% endblock %}
+

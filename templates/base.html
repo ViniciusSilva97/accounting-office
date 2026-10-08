@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Central do Escritório{% endblock %}</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="{% url 'dashboard' %}" class="brand">Central do Escritório</a>
+    {% if user.is_authenticated %}
+      <div class="userbox">
+        <span>{{ user.full_name }}</span>
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button>Sair</button></form>
+      </div>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
+
